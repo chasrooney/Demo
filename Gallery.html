@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Data Types Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .gallery-header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .gallery-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .data-type-section {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .data-type-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .example-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+        }
+
+        .example-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+
+        .example-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-content {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            position: relative;
+        }
+
+        .example-visual {
+            background: #f1f3f4;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+        }
+
+        .example-description {
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .table-demo {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .table-demo th, .table-demo td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-demo th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .table-demo tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .network-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .edge {
+            width: 30px;
+            height: 2px;
+            background: #333;
+        }
+
+        .image-placeholder {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            font-size: 3em;
+            border-radius: 8px;
+        }
+
+        .text-sample {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            line-height: 1.4;
+            font-family: Georgia, serif;
+        }
+
+        .json-sample {
+            background: #263238;
+            color: #eeffff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+        }
+
+        .time-series-chart {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            height: 100px;
+            justify-content: center;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #4CAF50, #8BC34A);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .spatial-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            aspect-ratio: 1;
+            background: #333;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .spatial-cell {
+            background: #e0e0e0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .spatial-cell.hot {
+            background: #ff4444;
+        }
+
+        .spatial-cell.warm {
+            background: #ff8800;
+        }
+
+        .spatial-cell.cool {
+            background: #4488ff;
+        }
+
+        @media (max-width: 768px) {
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-header h1 {
+                font-size: 2em;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery-header">
+            <h1>🎨 Data Types Gallery</h1>
+            <p>Explore the diverse world of data through real examples from your daily life</p>
+        </div>
+
+        <!-- Tabular/Structured Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>📊 Tabular Data</h2>
+                <p class="section-description">Organized in rows and columns - like spreadsheets you already know!</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">🎵 Spotify Top 50</div>
+                    <div class="example-visual">
+                        <table class="table-demo">
+                            <tr><th>Rank</th><th>Song</th><th>Artist</th><th>Streams</th></tr>
+                            <tr><td>1</td><td>Anti-Hero</td><td>Taylor Swift</td><td>1.2B</td></tr>
+                            <tr><td>2</td><td>As It Was</td><td>Harry Styles</td><td>985M</td></tr>
+                            <tr><td>3</td><td>Heat Waves</td><td>Glass Animals</td><td>923M</td></tr>
+                        </table>
+                    </div>
+                    <div class="example-description">Perfect for rankings, comparisons, and statistical analysis</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">🏀 NBA Player Stats</div>
+                    <div class="example-visual">
+                        <table class="table-demo">
+                            <tr><th>Player</th><th>PPG</th><th>RPG</th><th>APG</th></tr>
+                            <tr><td>LeBron James</td><td>28.9</td><td>8.3</td><td>6.8</td></tr>
+                            <tr><td>Stephen Curry</td><td>29.5</td><td>6.1</td><td>6.3</td></tr>
+                            <tr><td>Giannis</td><td>31.1</td><td>11.8</td><td>5.7</td></tr>
+                        </table>
+                    </div>
+                    <div class="example-description">Sports analytics rely heavily on structured numerical data</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>📝 Text Data</h2>
+                <p class="section-description">Words, sentences, and documents - unstructured but rich with meaning</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">🐦 Twitter/X Posts</div>
+                    <div class="example-visual">
+                        <div class="text-sample">
+                            "Just finished my college application essay! 📚✨ Feeling nervous but excited about the future. Anyone else applying to universities this year? #CollegeLife #SeniorYear #Dreams"
+                        </div>
+                    </div>
+                    <div class="example-description">Social media text reveals emotions, trends, and public opinion</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">📖 Book Reviews</div>
+                    <div class="example-visual">
+                        <div class="text-sample">
+                            "This book completely changed my perspective on climate change. The author's writing style is engaging and accessible, making complex scientific concepts easy to understand. Highly recommend for anyone interested in environmental issues."
+                        </div>
+                    </div>
+                    <div class="example-description">Review text can be analyzed for sentiment and topic patterns</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>📸 Image Data</h2>
+                <p class="section-description">Visual information stored as pixels - from selfies to satellite imagery</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">🤳 Instagram Photos</div>
+                    <div class="example-visual">
+                        <div class="image-placeholder">📱</div>
+                    </div>
+                    <div class="example-description">Millions of pixels containing visual patterns, faces, objects, and scenes</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">🏥 Medical X-rays</div>
+                    <div class="example-visual">
+                        <div class="image-placeholder">🩻</div>
+                    </div>
+                    <div class="example-description">AI can detect patterns in medical images to assist diagnosis</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Network Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>🕸️ Network/Graph Data</h2>
+                <p class="section-description">Connections and relationships - how things link together</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">👥 Social Media Networks</div>
+                    <div class="example-visual">
+                        <div class="network-visual">
+                            <div class="node">You</div>
+                            <div class="edge"></div>
+                            <div class="node">A</div>
+                            <div class="edge"></div>
+                            <div class="node">B</div>
+                            <br>
+                            <div class="node">C</div>
+                            <div class="edge"></div>
+                            <div class="node">D</div>
+                            <div class="edge"></div>
+                            <div class="node">E</div>
+                        </div>
+                    </div>
+                    <div class="example-description">Friend networks show how people connect and influence spreads</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">✈️ Flight Route Maps</div>
+                    <div class="example-visual">
+                        <div class="network-visual">
+                            <div class="node">NYC</div>
+                            <div class="edge"></div>
+                            <div class="node">LA</div>
+                            <div class="edge"></div>
+                            <div class="node">CHI</div>
+                            <br>
+                            <div class="node">MIA</div>
+                            <div class="edge"></div>
+                            <div class="node">ATL</div>
+                            <div class="edge"></div>
+                            <div class="node">SEA</div>
+                        </div>
+                    </div>
+                    <div class="example-description">Transportation networks optimize routes and predict delays</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Series Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>📈 Time Series Data</h2>
+                <p class="section-description">Data that changes over time - tracking trends and patterns</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">💓 Fitness Tracker Data</div>
+                    <div class="example-visual">
+                        <div class="time-series-chart">
+                            <div class="bar" style="height: 60%; width: 8px; background: #ff4444;"></div>
+                            <div class="bar" style="height: 80%; width: 8px; background: #ff6666;"></div>
+                            <div class="bar" style="height: 40%; width: 8px; background: #ffaaaa;"></div>
+                            <div class="bar" style="height: 90%; width: 8px; background: #ff0000;"></div>
+                            <div class="bar" style="height: 70%; width: 8px; background: #ff3333;"></div>
+                            <div class="bar" style="height: 50%; width: 8px; background: #ff8888;"></div>
+                            <div class="bar" style="height: 85%; width: 8px; background: #ff1111;"></div>
+                        </div>
+                    </div>
+                    <div class="example-description">Heart rate over time shows exercise patterns and health trends</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">📱 Daily Screen Time</div>
+                    <div class="example-visual">
+                        <div class="time-series-chart">
+                            <div class="bar" style="height: 45%; width: 8px; background: #4CAF50;"></div>
+                            <div class="bar" style="height: 75%; width: 8px; background: #FF9800;"></div>
+                            <div class="bar" style="height: 90%; width: 8px; background: #f44336;"></div>
+                            <div class="bar" style="height: 30%; width: 8px; background: #4CAF50;"></div>
+                            <div class="bar" style="height: 60%; width: 8px; background: #FF9800;"></div>
+                            <div class="bar" style="height: 85%; width: 8px; background: #f44336;"></div>
+                            <div class="bar" style="height: 40%; width: 8px; background: #4CAF50;"></div>
+                        </div>
+                    </div>
+                    <div class="example-description">App usage patterns reveal daily habits and digital wellness</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spatial/Geographic Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>🗺️ Spatial/Geographic Data</h2>
+                <p class="section-description">Location-based information - where things happen matters</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">🚗 Uber Ride Heatmap</div>
+                    <div class="example-visual">
+                        <div class="spatial-grid">
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell warm"></div>
+                            <div class="spatial-cell hot"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell cool"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell warm"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell hot"></div>
+                            <div class="spatial-cell hot"></div>
+                            <div class="spatial-cell warm"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell cool"></div>
+                            <div class="spatial-cell"></div>
+                            <div class="spatial-cell"></div>
+                        </div>
+                    </div>
+                    <div class="example-description">GPS coordinates show where ride requests are most common</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">🏪 Store Locations</div>
+                    <div class="example-visual">
+                        <div class="example-content">
+                            Starbucks Downtown: 40.7580° N, 73.9855° W<br>
+                            McDonald's Mall: 40.7614° N, 73.9776° W<br>
+                            Target Center: 40.7505° N, 73.9934° W
+                        </div>
+                    </div>
+                    <div class="example-description">Latitude and longitude coordinates enable mapping and route planning</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Semi-Structured Data -->
+        <div class="data-type-section">
+            <div class="section-header">
+                <h2>🔗 Semi-Structured Data</h2>
+                <p class="section-description">Mix of organized and flexible - structured but adaptable</p>
+            </div>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-title">📱 JSON from Apps</div>
+                    <div class="example-visual">
+                        <div class="json-sample">
+{
+  "user": "alex_2024",
+  "post": "First day of senior year! 🎓",
+  "timestamp": "2024-08-29T08:30:00Z",
+  "likes": 47,
+  "comments": [
+    {"user": "sarah", "text": "Good luck!"},
+    {"user": "mike", "text": "You got this! 💪"}
+  ],
+  "hashtags": ["#seniorYear", "#excited"]
+}
+                        </div>
+                    </div>
+                    <div class="example-description">Apps store data with some structure but flexible content</div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-title">🛒 Online Shopping</div>
+                    <div class="example-visual">
+                        <div class="json-sample">
+{
+  "product": "Gaming Laptop",
+  "price": 1299.99,
+  "reviews": 4.5,
+  "description": "High-performance laptop...",
+  "specs": {
+    "RAM": "16GB",
+    "Storage": "1TB SSD",
+    "Graphics": "RTX 4060"
+  },
+  "availability": true
+}
+                        </div>
+                    </div>
+                    <div class="example-description">E-commerce combines structured pricing with flexible product details</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate spatial grid cells
+            const spatialCells = document.querySelectorAll('.spatial-cell');
+            
+            function randomizeHeatmap() {
+                spatialCells.forEach(cell => {
+                    cell.className = 'spatial-cell';
+                    const rand = Math.random();
+                    if (rand > 0.8) {
+                        cell.classList.add('hot');
+                    } else if (rand > 0.6) {
+                        cell.classList.add('warm');
+                    } else if (rand > 0.4) {
+                        cell.classList.add('cool');
+                    }
+                });
+            }
+
+            // Update heatmap every 3 seconds
+            setInterval(randomizeHeatmap, 3000);
+
+            // Animate time series bars
+            const bars = document.querySelectorAll('.bar');
+            
+            function animateBars() {
+                bars.forEach(bar => {
+                    const newHeight = Math.random() * 80 + 20;
+                    bar.style.height = newHeight + '%';
+                });
+            }
+
+            // Update bars every 2 seconds
+            setInterval(animateBars, 2000);
+        });
+    </script>
+</body>
+</html>
